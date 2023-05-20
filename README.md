@@ -1,6 +1,8 @@
 # Relib
 A robust object-oriented UI library
 
+# Intro
+
 To use, you must require the module or load the raw version through loadstring; however, note that loadstring compatibility is not here yet:
 ```lua
 local Relib =  require(RelibModule) -- loadstring(rawLink)()
@@ -21,7 +23,22 @@ local buttonEvent = Button.Activated:Connect(function() -- You could also extern
   warn("Button Pressed.")
 end)
 buttonEvent:Disconnect() -- behaves like normal rbxconnections
--- Button : {}
 --
-local 
+local Dropdown = NewPage:Mount(Components.Dropdown, { -- Heres another example of mounting a component; this time, it's with a dropdown
+  Title = 'Keybind',
+  Set = {
+    'E',
+    'F',
+    'G',
+    'R'
+  },
+  Hooks = {
+    ValueChanged = function(value : string)
+      warn(value)
+    end)
+  }
+})
+warn(Dropdown.Value) -- All components except buttons and embeds have a value
 ```
+
+# Component
