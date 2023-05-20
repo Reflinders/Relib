@@ -3,7 +3,7 @@ A robust object-oriented UI library
 
 # Intro
 
-To use, you must require the module or load the raw version through loadstring; however, note that loadstring compatibility is not here yet:
+To use, you must require the module or load the raw version through loadstring; however, note that loadstring compatibility is not available yet:
 ```lua
 local Relib =  require(RelibModule) -- loadstring(rawLink)()
 local Components = Relib:GetComponents() -- Components needed to create buttons, sliders, dropdowns, etc.
