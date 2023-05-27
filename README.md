@@ -1,5 +1,5 @@
 # Relib
-A robust object-orientated UI library
+A robust object-orientated UI library made by Reflinders (@Mlgisbetter on Roblox). Inspired by other UI libraries, such as Orion and Rayfield.
 
 # Intro
 
