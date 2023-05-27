@@ -41,4 +41,6 @@ local Dropdown = NewPage:Mount(Components.Dropdown, { -- Heres another example o
 warn(Dropdown.Value) -- All components except buttons and embeds have a value
 ```
 
-# Component
+# Components
+
+## Embeds
