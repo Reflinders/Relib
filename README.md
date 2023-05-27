@@ -41,10 +41,11 @@ local Dropdown = NewPage:Mount(Components.Dropdown, { -- Heres another example o
 warn(Dropdown.Value) -- All components except buttons and embeds have a value
 ```
 
+# Relib (Main)
 # Components
 
 In order to add buttons and functional ui to a page, you must add `Relib Components`. `Relib:GetComponents()` will return a dictionary of all components available. 
-Practically all components follow the same practice in adding them, but some may have different parameters or events. This section will cover those differences and the general practices.
+Practically all components follow the same practice in adding them, but some may have different parameters or events. This section will cover those differences and the general practices. Additionally, you should note that every component that has a ValueChanged signal has the property `.Value`.
 
 ```lua
 local Components : {
@@ -76,7 +77,7 @@ Page:Mount(Embed.new, Arguments)
 ```
 
 ## Buttons
-Buttons are more complex than Embeds, but still fairly simple. The only property it has is Title; and it has one signal referenced as Activated, which fires when the button is pressed.
+Buttons are more complex than Embeds, but still fairly simple. The only argument property it has is Title; and it has one signal referenced as Activated, which fires when the button is pressed.
 
 ```lua
 local Arguments = {
@@ -91,7 +92,7 @@ Page:Mount(Button.new, Arguments)
 ```
 
 ## Textbox
-Textboxes contain the basic properties like Title, and it's own property, ClearTextOnFocus. Textboxes have 2 signals: ValueChanged, which is a basic signal that will show up in practically every component other than Buttons and Embeds; and Focused, which is fired when the text box is focused.
+Textboxes contain the basic argument properties like Title, and it's own property, ClearTextOnFocus. Textboxes have 2 signals: ValueChanged, which is a basic signal that will show up in practically every component other than Buttons and Embeds; and Focused, which is fired when the text box is focused.
 
 ```lua
 local Arguments = {
@@ -131,13 +132,13 @@ Page:Mount(Slider.new, Arguments)
 ```
 
 ## Boolean
-The boolean component is a toggle (which is valued at true or false). It only has the basic properties and signals.
+The boolean component is a toggle (which is valued at true or false). It only has the basic argument properties and signals.
 
 ```lua
 local Arguments = {
   Title = 'Inf Health',
   Hooks = {
-    ValueChanged = function(value : number)
+    ValueChanged = function(value : boolean)
       if value then 
         game.Players.LocalPlayer.Character.Health = math.huge
       else
@@ -147,4 +148,23 @@ local Arguments = {
   }
 }
 Page:Mount(Boolean.new, Arguments)
+```
+
+## Dropdown
+Dropdowns are the most advanced of all the components. The properties of the arguments are Title and Set, and the signals are 'Descended', 'Ascended', and 'ValueChanged'. The returned dropdown also has the property 'IsAscended' and the method `:add(setOption : any)`, which allows you to externally add new options.
+
+```lua
+local Arguments = {
+  Title = 'Jump Boost',
+  Set = {25, 45, 65, 85}, -- Values that aren't strings will be converted to strings
+  Hooks = {
+    ValueChanged = function(value : any) -- in this situation, the value will be a number
+       game.Players.LocalPlayer.Character.Humanoid.JumpPower = value
+    end,
+    Ascended = function(self)  -- First parameter for both Ascended and Descended is the `Dropdown`.
+      self:add(math.random(1, 200))
+    end,
+  }
+}
+Page:Mount(Dropdown.new, Arguments)
 ```
