@@ -1,9 +1,11 @@
 # Relib
-A robust object-orientated UI library made by Reflinders (@Mlgisbetter on Roblox). Inspired by other UI libraries, such as Orion and Rayfield.
+A robust object-orientated UI library made by Reflinders (@Mlgisbetter on Roblox). Inspired by other UI libraries, such as Orion and Rayfield. 
+It should be noted that understanding how Relib works requires experience/understanding in Luau.
 
 # Intro
+To load Relib, you must require the module or load the raw version through loadstring; however, note that loadstring compatibility is not available yet
+Here's an example of Relib in use:
 
-To load Relib, you must require the module or load the raw version through loadstring; however, note that loadstring compatibility is not available yet:
 ```lua
 local Relib =  require(RelibModule) -- loadstring(rawLink)()
 local Components = Relib:GetComponents() -- Components needed to create buttons, sliders, dropdowns, etc.
@@ -41,11 +43,63 @@ local Dropdown = NewPage:Mount(Components.Dropdown, { -- Heres another example o
 warn(Dropdown.Value) -- All components except buttons and embeds have a value
 ```
 
-# Relib (Main)
-# Components
+# 1.0 | Relib Objects
+This section goes over the main `Relib` service and object, created through `Relib.new()`. This will also go over how to make your own relib template. 
+
+## Relib Type
+`Relib.new` returns the main relib item necessary for creating the ui and all of its components. The new `relib` is made from the template (`Template.new`) given in arg 3, which defaults to the standard template. Argument one is the name and argument two is the parent gui. Once a new template is made, it will expand on it, adding several signals and properties: signals `Created` and `Destroyed`, tables `Pages` and `Settings`, and properties `Type` and `Name`. Once the object is expanded, the `:RelibInit()` method (inherited from the template item) is fired. Additionally, it should be noted that the `Destroy` method should not be used on a `Relib` object; instead, call the object (shown in figure 1.2):
+
+```lua 
+-- Figure 1.1
+local newRelib : {
+  Created : signal,
+  Destroyed : signal,
+  Pages : {},
+  Settings : {}, -- Only meant to be configured by the template
+  Name : string,
+  Type : string
+} = Relib.new("Reflinders's Script", script.Parent)
+```
+```lua
+-- Figure 1.2
+--/ ... Destruction Methods
+newRelib:Destroy() -- WRONG WAY
+newRelib() -- CORRECT WAY
+```
+### Templates
+A template is what the function `Relib.new` inherits from. Not supplying a template in `Relib.new` will result in the standard template being used. Templates are essentially the core of the `relib` object. It's suggested to use the standard template, but it is fully possible to create a custom template.
+
+Templates must have the 2 methods/functions RelibInit and Destroy, and the module must have a constructor. Refer to Figure 1.3 for the basics in creating a template.
+```lua
+-- Figure 1.3
+local template = {}
+function template.new(parentUi : any, name : string) -- Parameters should always be the same: parentUi and Name.
+  local newTemplate = {}; do
+    function newTemplate:RelibInit() -- fired once the templateObject is expanded upon
+      self.Ui = Instance.new('Frame', parentUi)
+      self.Ui.Name = name
+      --/ ...
+      self.Events[#self.Events + 1] = self.Created:Connect(function(page) -- `Created` is fired when a new page is created through `:Create`
+        page.BasePg.Parent = self.Ui
+      end
+    end
+
+    function newTemplate:Destroy() -- fires when the relib object is called. just a simple clean-up function
+      self.Ui:Destroy()
+      for _, event in ipairs(self.Events) do
+        event:Disconnect()
+      end
+    end
+  end
+  return newTemplate
+end
+return template
+```
+
+# 2.0 | Components
 
 In order to add buttons and functional ui to a page, you must add `Relib Components`. `Relib:GetComponents()` will return a dictionary of all components available. 
-Practically all components follow the same practice in adding them, but some may have different parameters or events. This section will cover those differences and the general practices. Additionally, you should note that every component that has a ValueChanged signal has the property `.Value`.
+Practically all components follow the same practice in adding them, but some may have different parameters or events. This section will cover those differences and the general practices. Additionally, you should note that every component that has a ValueChanged signal has the property `.Value`. 
 
 ```lua
 local Components : {
