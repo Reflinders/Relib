@@ -1,5 +1,5 @@
 # Relib
-A robust object-orientated UI library made by Reflinders (@Mlgisbetter on Roblox). Inspired by other UI libraries, such as Orion and Rayfield. 
+A robust and flexible object-orientated UI library made by Reflinders (@Mlgisbetter on Roblox). Inspired by other UI libraries, such as Orion and Rayfield. 
 It should be noted that understanding how Relib works requires experience/understanding in Luau.
 
 # Intro
@@ -96,6 +96,7 @@ end
 return template
 ```
 
+## Page Type
 # 2.0 | Components
 
 In order to add buttons and functional ui to a page, you must add `Relib Components`. `Relib:GetComponents()` will return a dictionary of all components available. 
