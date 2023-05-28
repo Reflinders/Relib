@@ -2,7 +2,8 @@
 A robust and flexible object-orientated UI library made by Reflinders (@Mlgisbetter on Roblox). Inspired by other UI libraries, such as Orion and Rayfield. 
 It should be noted that understanding how Relib works requires experience/understanding in Luau.
 
-(AS OF 5/28, IT IS UNRELEASED; BUT EXPECT IT TO RELEASE SOON)
+As of 5/28/23, Relib is unreleased; but expect it to be released soon.
+Development of Relib began 5/16.
 
 # Intro
 To load Relib, you must require the module or load the raw version through loadstring; however, note that loadstring compatibility is not available yet
