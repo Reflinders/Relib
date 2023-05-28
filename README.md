@@ -245,3 +245,9 @@ Page:Mount(Colorpicker.new, Arguments)
 ```
 
 ```Version: Alpha 0.1; Note that there may be bugs and that the standard Relib Ui is subject to change```
+
+``Roadmap``:
+V.0.2 --
+- New colorpicker  (circular colorpicker, revamped features)
+- Changes in Standard Ui (revamped ui, sleeker features, better tweens)
+- Changes in Embeds (adaptive length changing)
