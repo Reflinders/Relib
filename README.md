@@ -104,8 +104,14 @@ A page is what is created and returned through `relibObject:Create()`. The first
 
 ```lua
 -- Figure 1.4
-relibObject:Create('Regular', function()
-end
+local Page : {
+  Title : string,
+  Type : string,
+  BasePg : ScrollingFrame,
+  Button : Frame,
+  Destroy : signal,
+  Created : signal
+} = relibObject:Create('Regular')
 ```
  
 # 2.0 | Components
@@ -236,7 +242,7 @@ Page:Mount(Dropdown.new, Arguments)
 ```
 
 ## Colorpicker
-Colorpickers, similarly to dropdowns, have the basic signals as well as the signals `Ascended` and `Descended`. The returned `colorpicker` does not have any additional methods or properties other `Value` and `Title`.
+Colorpickers, similarly to dropdowns, have the basic signals as well as the signals `Ascended` and `Descended`. The returned `colorpicker` does not have any additional methods or properties other than `Value` and `Title`.
 
 ```lua
 local Arguments = {
@@ -273,7 +279,7 @@ function Relib:WrapMount(...)
       Description = Arguments[3] 
    }; return function(hooks)
     Base.Hooks = hooks
-    Page:Mount(Components[arguments[1]].new, Base)
+    return Page:Mount(Components[arguments[1]].new, Base)
    end
 end
 --
