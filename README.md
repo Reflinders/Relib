@@ -102,6 +102,12 @@ return template
 ## Page Type
 A page is what is created and returned through `relibObject:Create()`. The first argument is the title of the page, or in other words, what text will appear on the button. The `page` item has the properties `Type`, `Title`, `BasePg`, and `Button`, and the method `Destroy`. `BasePg` is the instance of the page, so essentially the ui object. Similarly, `Button` is the instance of the button. Additionally, it should be noted that when a page is created, event/signal "`Created`" of the `relib` object will be fired with the page as the first argument. 
 
+```lua
+-- Figure 1.4
+relibObject:Create('Regular', function()
+end
+```
+ 
 # 2.0 | Components
 
 In order to add buttons and functional ui to a page, you must first manage to use the components of relib. `Relib:GetComponents()` will return a dictionary of all components available. 
@@ -246,7 +252,38 @@ local Arguments = {
 }
 Page:Mount(Colorpicker.new, Arguments)
 ```
+## Alternative to `Mount`
+Since some may find the `Mount` method to be too extensive, there is an alternative function that you can use to use less space/lines: `WrapMount`. Refer to Figure 2.1 to figure out how to set the method up and how to use it.
 
+```lua
+-- Figure 2.1
+function Relib:WrapMount(...)
+  assert(self.Type == 'Page', 'Relib: Attempt to WrapMount outside of a `Page` item.'
+  local Arguments = {...}
+  local Components = Relib:GetComponents(); if not Components[[arguments[1]] then
+    return
+  end
+  --/ ...
+  local Base = {
+      Title = Arguments[2],
+      Set = Arguments[3],
+      Min = Arguments[3][1],
+      Max = Arguments[3][2],
+      ClearTextOnFocus = Arguments[3],
+      Description = Arguments[3] 
+   }; return function(hooks)
+    Base.Hooks = hooks
+    Page:Mount(Components[[arguments[1]].new, Base)
+   end
+end
+--
+local newDropdown = Relib:WrapMount('Dropdown', 'WalkSpeed', {10, 50, 100})()-- Is less expansive through the use of simple arguments rather than a table of arguments
+local newButton = Relib:WrapMount('Button', 'Print "Hello, world!"'){ -- The function returned is used to hook functions; in a nutshell, the first argument is the table of hooks. Regardless, it must be executed to actually create the relib component.
+  Activated = function()
+    warn("Hello, world!")
+  end
+}
+```
 ```Version: Alpha 0.1; Note that there may be bugs and that the standard Relib Ui is subject to change```
 
 ``Roadmap``:
