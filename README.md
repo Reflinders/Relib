@@ -260,7 +260,7 @@ Since some may find the `Mount` method to be too extensive, there is an alternat
 function Relib:WrapMount(...)
   assert(self.Type == 'Page', 'Relib: Attempt to WrapMount outside of a `Page` item.'
   local Arguments = {...}
-  local Components = Relib:GetComponents(); if not Components[[arguments[1]] then
+  local Components = Relib:GetComponents(); if not Components[arguments[1]] then
     return
   end
   --/ ...
@@ -273,7 +273,7 @@ function Relib:WrapMount(...)
       Description = Arguments[3] 
    }; return function(hooks)
     Base.Hooks = hooks
-    Page:Mount(Components[[arguments[1]].new, Base)
+    Page:Mount(Components[arguments[1]].new, Base)
    end
 end
 --
