@@ -277,8 +277,8 @@ function Relib:WrapMount(...)
    end
 end
 --
-local newDropdown = Relib:WrapMount('Dropdown', 'WalkSpeed', {10, 50, 100})()-- Is less expansive through the use of simple arguments rather than a table of arguments
-local newButton = Relib:WrapMount('Button', 'Print "Hello, world!"'){ -- The function returned is used to hook functions; in a nutshell, the first argument is the table of hooks. Regardless, it must be executed to actually create the relib component.
+local newDropdown = Page:WrapMount('Dropdown', 'WalkSpeed', {10, 50, 100})()-- Is less expansive through the use of simple arguments rather than a table of arguments
+local newButton = Page:WrapMount('Button', 'Print "Hello, world!"'){ -- The function returned is used to hook functions; in a nutshell, the first argument is the table of hooks. Regardless, it must be executed to actually create the relib component.
   Activated = function()
     warn("Hello, world!")
   end
