@@ -290,6 +290,26 @@ local newButton = Page:WrapMount('Button', 'Print "Hello, world!"'){ -- The func
   end
 }
 ```
+# Alternative to Standard Relib Page and Component Creation
+Another way to create a new `Relib` is by wrapping the new relib in a table of creations. I won't go into to much detail about this, but Refer to Figure 3.1 to see how.
+
+```lua
+-- Figure 3.1
+local Expand, Avant, Element = Relib.Expand, Relib.Avant, Relib.Element -- Avant is for pages; element is for components.
+local newRelib = Relib.new("Reflinders's Script", script.Parent){
+  [Expand] = {
+    Avant 'New Page' {
+      Element 'Button' {
+        
+      }
+    }
+  }
+}
+newRelib.Memory[1].UIComponents[1].Activated:Connect(function() -- new table `Memory` is created when 
+  newRelib() -- destroys the relib obj
+end)
+```
+
 ```Version: Alpha 0.1; Note that there may be bugs and that the standard Relib Ui is subject to change```
 
 ``Roadmap``:
