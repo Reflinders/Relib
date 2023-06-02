@@ -272,7 +272,7 @@ Page:Mount(Boolean.new, Arguments)
 ```
 
 ## Dropdown
-Dropdowns are the most advanced of all the components. The properties of the arguments are `Title` and `Set`, and the signals are 'Descended', 'Ascended', and 'ValueChanged'. The `dropdown` also has the property 'IsAscended' and the method `:add(setOption : any)`, which allows you to externally add new options.
+Dropdowns are the most advanced of all the components. The properties of the arguments are `Title` and `Set`, and the signals are 'Descended', 'Ascended', and 'ValueChanged'. The `dropdown` also has the property 'IsAscended' and the method `:add(setOption : any)` and `:Shift(newOptions:{any})`, which allow you to externally add new options. Also, it should be noted that dropdowns do not have the method `:Set` like the other components.
 
 ```lua
 local Arguments = {
@@ -287,7 +287,10 @@ local Arguments = {
     end,
   }
 }
-Page:Mount(Dropdown.new, Arguments)
+local newDropdown = Page:Mount(Dropdown.new, Arguments)
+newDropdown.ValueChanged:Connect(function()
+  newDropdown:Shift{25, 45, 65, 85, 105, 125, 145}
+end)
 ```
 
 ## Colorpicker
