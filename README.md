@@ -248,9 +248,9 @@ Colorpickers, similarly to dropdowns, have the basic signals as well as the sign
 local Arguments = {
   Title = 'Body Color',
   Hooks = {
-    ValueChanged = function(color : Color3) -- in this situation, the value will be a number
+    ValueChanged = function(color : Color3)
        local partsInCharacter = game.Players.LocalPlayer.Character:GetDescendants()
-       for _, part in ipairs(partInCharacter) do
+       for _, part in ipairs(partsInCharacter) do
         part.Color = color
        end
     end
