@@ -291,7 +291,7 @@ local newButton = Page:WrapMount('Button', 'Print "Hello, world!"'){ -- The func
 }
 ```
 # Alternative to Standard Relib Page and Component Creation
-Another way to create a new `Relib` is by wrapping the new relib in a table of creations. I won't go into to much detail about this, but Refer to Figure 3.1 to see how.
+Another way to create a new `Relib` is by wrapping the new relib in a table of creations. I won't go into too much detail about this, but Refer to Figure 3.1 to see how.
 
 ```lua
 -- Figure 3.1
