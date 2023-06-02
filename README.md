@@ -50,7 +50,7 @@ warn(Dropdown.Value) -- All components except buttons and embeds have a value
 This section goes over the main `Relib` service and object, created through `Relib.new()`. This will also go over how to make your own relib template. 
 
 ## Relib Type
-`Relib.new` returns the main relib item necessary for creating the ui and all of its components. Argument one is the name and argument two is the parent gui. The new `relib` is made from the template (`Template.new`) given in arg 3, which defaults to the standard template. Once a new template is made, it will expand on it, adding several signals and properties: signals `Created` and `Destroyed`, tables `Pages` and `Settings`, and properties `Type` and `Name`. Once the object is expanded, the `:RelibInit()` method (inherited from the template item) is fired. Additionally, it should be noted that the `Destroy` method should not be used on a `Relib` object; instead, call the object (shown in figure 1.2):
+`Relib.new` returns the main relib item necessary for creating the ui and all of its components. Argument one is the name and argument two is the parent gui. Argument 3 is a table of settings. The new `relib` is made from the template (`Template.new`) given in arg 4, which defaults to the standard template. Once a new template is made, it will expand on it, adding several signals and properties: signals `Created` and `Destroyed`, tables `Pages` and `Settings`, and properties `Type` and `Name`. Once the object is expanded, the `:RelibInit()` method (inherited from the template item) is fired. Additionally, it should be noted that the `Destroy` method should not be used on a `Relib` object; instead, call the object (shown in figure 1.2):
 
 ```lua 
 -- Figure 1.1
@@ -72,9 +72,9 @@ newRelib() -- CORRECT WAY
 ### Templates
 A template is what the function `Relib.new` inherits from. Not supplying a template in `Relib.new` will result in the standard template being used. Templates are essentially the core of the `relib` object. It's suggested to use the standard template, but it is fully possible to create a custom template.
 
-Templates must have the 2 methods/functions `RelibInit` and `Destroy`, and the module must have a constructor. Refer to Figure 1.3 for the basics in creating a template.
+Templates must have the 2 methods/functions `RelibInit` and `Destroy`, and the module must have a constructor. Refer to Figure 1.3.1 for the basics in creating a template.
 ```lua
--- Figure 1.3
+-- Figure 1.3.1
 local template = {}
 function template.new(parentUi : any, name : string) -- Parameters should always be the same: parentUi and Name.
   local newTemplate = {}; do
@@ -99,6 +99,21 @@ end
 return template
 ```
 
+### Standard Template
+As mentioned previously, if the template is not supplied when `Relib.new` is called, it will proceed with the standard (default) template. Refer to figure 1.3.2 to see the few methods/properties available with the standard template.
+
+```lua
+-- Figure 1.3.2
+local newRelib = Relib.new("Reflinders's Script", script.Parent, {
+  Title = "Reflinder's Script" -- for the intro
+  Description = "The best script eva"
+})
+
+newRelib:Notify(imageId, title, description)
+-- Planning to add:
+newRelib:ChangeTheme(newRelib.Theme.Violet)
+```
+
 ## Page Type
 A page is what is created and returned through `relibObject:Create()`. The first argument is the title of the page, or in other words, what text will appear on the button. The `page` item has the properties `Type`, `Title`, `BasePg`, and `Button`, and the method `Destroy`. `BasePg` is the instance of the page, so essentially the ui object. Similarly, `Button` is the instance of the button. Additionally, it should be noted that when a page is created, event/signal "`Created`" of the `relib` object will be fired with the page as the first argument. 
 
@@ -117,9 +132,10 @@ local Page : {
 # 2.0 | Components
 
 In order to add buttons and functional ui to a page, you must first manage to use the components of relib. `Relib:GetComponents()` will return a dictionary of all components available. 
-Practically all components follow the same practice in adding them, but some may have different parameters, properties, methods, or signals. This section will cover those differences and the general practices. Also, it should be noted that every component that has a ValueChanged signal has the property `.Value`. 
+Practically all components follow the same practice in adding them, but some may have different parameters, properties, methods, or signals. This section will cover those differences and the general practices. Also, it should be noted that every component that has a ValueChanged signal has the property `.Value`. Additionally, all components that have values can have the default value set through adding the property `Value` in the `EmbedData` (table of argument given when creating a component). It is advised to use the method `Set` on the components when you are changing the value rather than directly changing it through its property `Value`.
 
 ```lua
+-- Figure 2.1
 local Components : {
   Boolean : {}, 
   Slider : {},
@@ -134,6 +150,39 @@ local Embed = Components.Embed
 Page:Mount(Embed.new, {
   Title = 'Hello World!',
   Description = 'This is a description.'
+})
+--
+-- example for value usage --
+local Boolean = Components.Boolean
+Page:Mount(Boolean.new, {
+  Title = 'Kill Aura',
+  Value = false
+  Hooks = {
+    ValueChanged = function(bool)
+      if bool then
+        coroutine.wrap(function()
+          _G.killAuraActive = true
+          while _G.killAuraActive do
+            task.wait(1)
+            local plrs = game.Players:GetPlayers()
+            for _, x in ipairs(plrs) do
+              local c = x.Character; if c then
+                local h = c:FindFirstChild('HumanoidRootPart')
+                if h then
+                  if (h.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude < 10 then
+                    task.wait(); c.Humanoid:TakeDamage(25)
+                  end
+                end
+              end
+            end
+          end
+          coroutine.yield()
+        end)()
+      else
+        _G.killAuraActive = false
+      end
+    end
+  }
 })
 ```
 
@@ -319,6 +368,7 @@ end)
 
 ``Roadmap``:
 V.0.2 --
+- Light-Mode and custom themes for standard template
 - New colorpicker  (circular colorpicker, revamped features)
 - Changes in Standard Ui (revamped ui, sleeker features, better tweens)
-- Changes in Embeds (adaptive length changing)
+- Changes in Embeds (adaptive length changing) [FINISHED]
