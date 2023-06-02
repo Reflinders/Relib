@@ -300,7 +300,12 @@ local newRelib = Relib.new("Reflinders's Script", script.Parent){
   [Expand] = {
     Avant 'New Page' {
       Element 'Button' {
-        
+        Title = 'Create Part',
+        Hooks = {
+         Activated = function()
+            Instance.new('Part', workspace)
+         end
+        }
       }
     }
   }
