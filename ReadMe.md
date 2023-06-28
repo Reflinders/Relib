@@ -3,7 +3,7 @@ A robust and flexible object-orientated UI library made by Reflinders (@Mlgisbet
 It should be noted that understanding how Relib works requires experience/understanding in Luau.
 
 Development of Relib began 5/16.
-Relib will be publicly released on 6/30, and the documentation will be updated by then.
+Relib will be publicly released when I decide to work on it, and the documentation will be updated by then.
 
 # Intro
 To load Relib, you must require the module or load the raw version through loadstring; however, note that loadstring compatibility is not available yet
